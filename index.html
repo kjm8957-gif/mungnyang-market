@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>멍냥마켓</title>
+
+  <style>
+    /* 공통 설정 */
+    body {
+      margin: 0;
+      font-family: "맑은 고딕", sans-serif;
+      background-color: #FFF8F0;
+      color: #4A3B32;
+    }
+
+    /* 맨 위 (이름 + 소개) */
+    header {
+      background-color: #FF8A3D;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+    }
+    header p {
+      margin: 8px 0 0 0;
+      font-size: 19px;
+    }
+
+    /* 메뉴 4개 */
+    nav {
+      background-color: #FFE3CC;
+      text-align: center;
+      padding: 15px;
+    }
+    nav a {
+      color: #C2551A;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 15px;
+      font-size: 19px;
+    }
+
+    /* 큰 배너 (배경 사진 + 주황색 반투명 막) */
+    .banner {
+      background-image:
+        linear-gradient(rgba(180, 80, 20, 0.55), rgba(180, 80, 20, 0.55)),
+        url("https://placedog.net/1200/500?id=3");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 90px 20px;
+    }
+    .banner h2 {
+      font-size: 38px;
+      margin: 0 0 10px 0;
+    }
+    .banner p {
+      font-size: 21px;
+      margin: 0 0 25px 0;
+    }
+    .banner button {
+      background-color: #FF8A3D;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 15px 40px;
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    /* 카테고리 버튼 */
+    .categories {
+      text-align: center;
+      padding: 40px 20px 0 20px;
+    }
+    .categories button {
+      background-color: white;
+      color: #C2551A;
+      border: 2px solid #FFD8B0;
+      border-radius: 25px;
+      padding: 10px 22px;
+      font-size: 17px;
+      font-weight: bold;
+      margin: 5px;
+      cursor: pointer;
+    }
+    /* 선택된 버튼 */
+    .categories button.active {
+      background-color: #2D7FF9;
+      border-color: #2D7FF9;
+      color: white;
+    }
+
+    /* 상품 카드 */
+    .products {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      padding: 50px 20px;
+    }
+    .card {
+      background-color: white;
+      border-radius: 20px;
+      width: 270px;
+      padding-bottom: 25px;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      /* 카드 그림자 */
+      box-shadow: 0 8px 20px rgba(120, 70, 30, 0.18);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+    /* BEST 배지 */
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background-color: #2D7FF9;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 6px 13px;
+      border-radius: 15px;
+    }
+
+    /* NEW 배지 (초록색) */
+    .badge.new {
+      background-color: #3EA37A;
+    }
+    /* 할인 배지 (노란색) */
+    .badge.sale {
+      background-color: #F0A020;
+    }
+    /* 할인율 (빨간색) */
+    .discount {
+      color: #FF2D2D;
+      font-weight: bold;
+      font-size: 19px;
+      margin-right: 6px;
+    }
+    .card h3 {
+      margin: 18px 0 10px 0;
+      font-size: 21px;
+    }
+    .old-price {
+      color: #999999;
+      text-decoration: line-through;
+      font-size: 17px;
+    }
+    .price {
+      color: #FF6B00;
+      font-size: 26px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+    .card button {
+      background-color: #FF8A3D;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 25px;
+      font-size: 17px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    /* 맨 아래 연락처 */
+    footer {
+      background-color: #4A3B32;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 맨 위 -->
+  <header>
+    <h1>🐶 멍냥마켓 🐱</h1>
+    <p>우리 아이를 위한 따뜻한 선택</p>
+  </header>
+
+  <!-- 메뉴 -->
+  <nav>
+    <a href="#">사료·간식</a>
+    <a href="#">장난감</a>
+    <a href="#">산책용품</a>
+    <a href="#">이벤트</a>
+  </nav>
+
+  <!-- 배너 -->
+  <div class="banner">
+    <h2>🎁 첫 만남 선물, 30% 할인</h2>
+    <p>지금 가입하면 3,000원 쿠폰 + 무료배송</p>
+    <button onclick="showAlert('가입 쿠폰이 발급되었습니다! 🎁')">지금 가입하고 받기</button>
+  </div>
+
+  <!-- 카테고리 버튼 -->
+  <div class="categories">
+    <button class="active" onclick="showCategory('전체', this)">전체</button>
+    <button onclick="showCategory('간식', this)">간식</button>
+    <button onclick="showCategory('장난감', this)">장난감</button>
+    <button onclick="showCategory('용품', this)">용품</button>
+  </div>
+
+  <!-- 상품 카드 6개 -->
+  <div class="products">
+
+    <div class="card" data-category="간식">
+      <span class="badge">BEST</span>
+      <img src="https://placedog.net/500/400?id=12" alt="수제 오리목뼈 간식">
+      <h3>수제 오리목뼈 간식</h3>
+      <span class="old-price">18,000원</span>
+      <span class="price">12,600원</span>
+      <br>
+      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+    </div>
+
+    <div class="card" data-category="장난감">
+      <span class="badge new">NEW</span>
+      <img src="https://placedog.net/500/400?id=21" alt="삑삑이 애착 인형">
+      <h3>삑삑이 애착 인형</h3>
+      <span class="old-price">15,000원</span>
+      <span class="price">9,900원</span>
+      <br>
+      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+    </div>
+
+    <div class="card" data-category="용품">
+      <span class="badge">BEST</span>
+      <img src="https://placedog.net/500/400?id=30" alt="푹신 쿠션 하네스">
+      <h3>푹신 쿠션 하네스</h3>
+      <span class="old-price">32,000원</span>
+      <span class="price">24,900원</span>
+      <br>
+      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+    </div>
+
+    <div class="card" data-category="용품">
+      <span class="badge sale">할인</span>
+      <img src="https://placedog.net/500/400?id=7" alt="도톰 방석 하우스">
+      <h3>도톰 방석 하우스</h3>
+      <span class="old-price">45,000원</span>
+      <span class="price">33,000원</span>
+      <br>
+      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+    </div>
+
+    <div class="card" data-category="용품">
+      <span class="badge new">NEW</span>
+      <img src="https://placedog.net/500/400?id=45" alt="포근 니트 겨울옷">
+      <h3>포근 니트 겨울옷</h3>
+      <span class="old-price">28,000원</span>
+      <span class="price">19,600원</span>
+      <br>
+      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+    </div>
+
+    <div class="card" data-category="용품">
+      <span class="badge sale">할인</span>
+      <img src="https://placedog.net/500/400?id=55" alt="스텐 자동 급수기">
+      <h3>스텐 자동 급수기</h3>
+      <span class="old-price">39,000원</span>
+      <span class="price">27,300원</span>
+      <br>
+      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+    </div>
+
+  </div>
+
+  <!-- 맨 아래 -->
+  <footer>
+    <p>
+      멍냥마켓 고객센터 ☎ 010-4563-8957<br>
+      평일 10:00 ~ 18:00 (점심 12:00 ~ 13:00 / 주말·공휴일 휴무)
+    </p>
+  </footer>
+
+  <script>
+    // 버튼을 누르면 알림창을 띄우는 함수
+    function showAlert(message) {
+      alert(message);
+    }
+
+
+    // 카테고리 버튼을 누르면 해당 상품만 보여주는 함수
+    function showCategory(name, clickedButton) {
+      // 1. 모든 상품 카드를 확인해서 보이거나 숨기기
+      var cards = document.querySelectorAll('.card');
+      for (var i = 0; i < cards.length; i++) {
+        if (name === '전체' || cards[i].dataset.category === name) {
+          cards[i].style.display = 'block';
+        } else {
+          cards[i].style.display = 'none';
+        }
+      }
+
+      // 2. 누른 버튼에만 주황색 표시하기
+      var buttons = document.querySelectorAll('.categories button');
+      for (var j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove('active');
+      }
+      clickedButton.classList.add('active');
+    }
+
+    // 할인 전 가격과 판매 가격을 비교해서 할인율을 계산하는 함수
+    function showDiscount() {
+      var cards = document.querySelectorAll('.card');
+      for (var i = 0; i < cards.length; i++) {
+        // 1. 두 가격에서 숫자만 뽑아내기 ("18,000원" -> 18000)
+        var oldBox = cards[i].querySelector('.old-price');
+        var nowBox = cards[i].querySelector('.price');
+        var oldPrice = Number(oldBox.textContent.replace(/[^0-9]/g, ''));
+        var nowPrice = Number(nowBox.textContent.replace(/[^0-9]/g, ''));
+
+        // 2. 할인율 계산하기 (소수점은 반올림)
+        var rate = Math.round((oldPrice - nowPrice) / oldPrice * 100);
+
+        // 3. 가격 앞에 빨간 글씨로 넣기
+        var tag = document.createElement('span');
+        tag.className = 'discount';
+        tag.textContent = rate + '%';
+        oldBox.parentNode.insertBefore(tag, oldBox);
+      }
+    }
+
+    // 화면이 열릴 때 할인율을 자동으로 계산
+    showDiscount();
+  </script>
+
+</body>
+</html>
