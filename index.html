@@ -230,6 +230,94 @@
       cursor: pointer;
     }
 
+    /* 장바구니 */
+    .cart {
+      max-width: 640px;
+      margin: 0 auto 60px auto;
+      background-color: white;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 8px 20px rgba(120, 70, 30, 0.18);
+    }
+    .cart h2 {
+      font-size: 24px;
+      margin: 0 0 20px 0;
+      text-align: center;
+    }
+    /* 담은 상품 한 줄 */
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #F1E4D8;
+      padding: 14px 0;
+    }
+    .cart-name {
+      flex: 1;
+      font-size: 17px;
+      text-align: left;
+    }
+    /* 수량 바꾸는 버튼 */
+    .cart-count button {
+      width: 32px;
+      height: 32px;
+      background-color: #FFE3CC;
+      color: #C2551A;
+      border: none;
+      border-radius: 50%;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cart-count b {
+      display: inline-block;
+      width: 34px;
+      text-align: center;
+      font-size: 17px;
+    }
+    .cart-sum {
+      width: 95px;
+      text-align: right;
+      font-size: 17px;
+      font-weight: bold;
+      color: #FF6B00;
+    }
+    .cart-del {
+      background: none;
+      border: none;
+      color: #B9A79A;
+      font-size: 17px;
+      cursor: pointer;
+    }
+    /* 총 금액 */
+    .cart-total {
+      text-align: right;
+      font-size: 21px;
+      margin: 22px 0;
+    }
+    .cart-total span {
+      font-size: 27px;
+      font-weight: bold;
+      color: #FF6B00;
+    }
+    .order-button {
+      width: 100%;
+      background-color: #FF8A3D;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 15px;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cart-empty {
+      text-align: center;
+      color: #7A675C;
+      font-size: 17px;
+      padding: 15px 0;
+    }
+
     /* 쇼핑몰 소개 */
     .about {
       background-color: #FFE3CC;
@@ -290,7 +378,7 @@
   <header>
     <h1>🐶 멍냥마켓 🐱</h1>
     <p>우리 아이를 위한 따뜻한 선택</p>
-    <p class="wish-count">❤️ 찜한 상품 <span id="wishNumber">0</span>개</p>
+    <p class="wish-count">❤️ 찜한 상품 <span id="wishNumber">0</span>개 &nbsp; 🛒 장바구니 <span id="cartNumber">0</span>개</p>
   </header>
 
   <!-- 메뉴 -->
@@ -332,7 +420,7 @@
       <span class="old-price">18,000원</span>
       <span class="price">12,600원</span>
       <br>
-      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+      <button onclick="addToCart(this)">장바구니 담기</button>
     </div>
 
     <div class="card" data-category="장난감">
@@ -343,7 +431,7 @@
       <span class="old-price">15,000원</span>
       <span class="price">9,900원</span>
       <br>
-      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+      <button onclick="addToCart(this)">장바구니 담기</button>
     </div>
 
     <div class="card" data-category="용품">
@@ -354,7 +442,7 @@
       <span class="old-price">32,000원</span>
       <span class="price">24,900원</span>
       <br>
-      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+      <button onclick="addToCart(this)">장바구니 담기</button>
     </div>
 
     <div class="card" data-category="용품">
@@ -365,7 +453,7 @@
       <span class="old-price">45,000원</span>
       <span class="price">33,000원</span>
       <br>
-      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+      <button onclick="addToCart(this)">장바구니 담기</button>
     </div>
 
     <div class="card" data-category="용품">
@@ -376,7 +464,7 @@
       <span class="old-price">28,000원</span>
       <span class="price">19,600원</span>
       <br>
-      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+      <button onclick="addToCart(this)">장바구니 담기</button>
     </div>
 
     <div class="card" data-category="용품">
@@ -387,7 +475,7 @@
       <span class="old-price">39,000원</span>
       <span class="price">27,300원</span>
       <br>
-      <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
+      <button onclick="addToCart(this)">장바구니 담기</button>
     </div>
 
   </div>
@@ -397,6 +485,17 @@
     찾으시는 상품이 없어요 🐾<br>
     다른 이름으로 검색해 보세요.
   </p>
+
+  <!-- 장바구니 -->
+  <div class="cart">
+    <h2>🛒 장바구니</h2>
+
+    <p class="cart-empty" id="cartEmpty">아직 담은 상품이 없어요 🐾</p>
+    <div id="cartList"></div>
+
+    <p class="cart-total">총 금액 <span id="cartTotal">0</span>원</p>
+    <button class="order-button" onclick="order()">주문하기</button>
+  </div>
 
   <!-- 쇼핑몰 소개 -->
   <div class="about">
@@ -491,8 +590,6 @@
         noResult.style.display = 'none';
       }
     }
-      clickedButton.classList.add('active');
-    }
 
     // 할인 전 가격과 판매 가격을 비교해서 할인율을 계산하는 함수
     function showDiscount() {
@@ -538,6 +635,107 @@
         }
       }
       document.getElementById('wishNumber').textContent = count;
+    }
+
+    // ===== 장바구니 =====
+
+    // 담은 상품을 저장해두는 목록
+    var cart = [];
+
+    // 숫자에 쉼표 넣기 (12600 -> 12,600)
+    function won(number) {
+      return number.toLocaleString();
+    }
+
+    // "장바구니 담기" 버튼을 누르면 실행되는 함수
+    function addToCart(button) {
+      var card = button.closest('.card');
+      var name = card.querySelector('h3').textContent;
+      var price = Number(card.querySelector('.price').textContent.replace(/[^0-9]/g, ''));
+
+      // 이미 담은 상품이면 수량만 1 늘리기
+      for (var i = 0; i < cart.length; i++) {
+        if (cart[i].name === name) {
+          cart[i].count = cart[i].count + 1;
+          drawCart();
+          return;
+        }
+      }
+
+      // 처음 담는 상품이면 새로 넣기
+      cart.push({ name: name, price: price, count: 1 });
+      drawCart();
+    }
+
+    // 수량 바꾸기 (+1 또는 -1), 0이 되면 목록에서 빼기
+    function changeCount(index, amount) {
+      cart[index].count = cart[index].count + amount;
+      if (cart[index].count < 1) {
+        cart.splice(index, 1);
+      }
+      drawCart();
+    }
+
+    // 상품 하나 빼기
+    function removeItem(index) {
+      cart.splice(index, 1);
+      drawCart();
+    }
+
+    // 총 금액 계산하기
+    function getTotal() {
+      var total = 0;
+      for (var i = 0; i < cart.length; i++) {
+        total = total + cart[i].price * cart[i].count;
+      }
+      return total;
+    }
+
+    // 장바구니 화면 그리기
+    function drawCart() {
+      var list = document.getElementById('cartList');
+      var html = '';
+
+      for (var i = 0; i < cart.length; i++) {
+        var sum = cart[i].price * cart[i].count;
+        html = html +
+          '<div class="cart-item">' +
+            '<span class="cart-name">' + cart[i].name + '</span>' +
+            '<span class="cart-count">' +
+              '<button onclick="changeCount(' + i + ', -1)">-</button>' +
+              '<b>' + cart[i].count + '</b>' +
+              '<button onclick="changeCount(' + i + ', 1)">+</button>' +
+            '</span>' +
+            '<span class="cart-sum">' + won(sum) + '원</span>' +
+            '<button class="cart-del" onclick="removeItem(' + i + ')">✕</button>' +
+          '</div>';
+      }
+
+      list.innerHTML = html;
+
+      // 총 금액과 안내 문구 바꾸기
+      document.getElementById('cartTotal').textContent = won(getTotal());
+      if (cart.length === 0) {
+        document.getElementById('cartEmpty').style.display = 'block';
+      } else {
+        document.getElementById('cartEmpty').style.display = 'none';
+      }
+
+      // 맨 위 장바구니 개수 바꾸기
+      var totalCount = 0;
+      for (var j = 0; j < cart.length; j++) {
+        totalCount = totalCount + cart[j].count;
+      }
+      document.getElementById('cartNumber').textContent = totalCount;
+    }
+
+    // 주문하기 버튼
+    function order() {
+      if (cart.length === 0) {
+        alert('장바구니가 비어 있어요 🐾');
+        return;
+      }
+      alert('총 ' + won(getTotal()) + '원 주문이 접수되었습니다! 🎉');
     }
   </script>
 
