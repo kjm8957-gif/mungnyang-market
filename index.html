@@ -30,6 +30,17 @@
       font-size: 19px;
     }
 
+    /* 찜한 개수 표시 */
+    .wish-count {
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 7px 18px;
+      margin: 14px 0 0 0;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
     /* 메뉴 4개 */
     nav {
       background-color: #FFE3CC;
@@ -73,10 +84,38 @@
       cursor: pointer;
     }
 
+    /* 검색창 */
+    .search {
+      text-align: center;
+      padding: 40px 20px 0 20px;
+    }
+    .search input {
+      width: 340px;
+      max-width: 85%;
+      padding: 13px 22px;
+      font-size: 17px;
+      border: 2px solid #FFD8B0;
+      border-radius: 25px;
+      outline: none;
+    }
+    .search input:focus {
+      border-color: #FF8A3D;
+    }
+
+    /* 찾는 상품이 없을 때 안내 문구 */
+    .no-result {
+      display: none;
+      text-align: center;
+      font-size: 19px;
+      line-height: 1.8;
+      color: #7A675C;
+      padding: 40px 20px 60px 20px;
+    }
+
     /* 카테고리 버튼 */
     .categories {
       text-align: center;
-      padding: 40px 20px 0 20px;
+      padding: 22px 20px 0 20px;
     }
     .categories button {
       background-color: white;
@@ -121,6 +160,22 @@
       object-fit: cover;
       display: block;
     }
+    /* 찜하기 하트 버튼 */
+    .card button.heart {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      font-size: 20px;
+      line-height: 1;
+      padding: 0;
+      cursor: pointer;
+    }
+
     /* BEST 배지 */
     .badge {
       position: absolute;
@@ -235,6 +290,7 @@
   <header>
     <h1>🐶 멍냥마켓 🐱</h1>
     <p>우리 아이를 위한 따뜻한 선택</p>
+    <p class="wish-count">❤️ 찜한 상품 <span id="wishNumber">0</span>개</p>
   </header>
 
   <!-- 메뉴 -->
@@ -252,6 +308,11 @@
     <button onclick="showAlert('가입 쿠폰이 발급되었습니다! 🎁')">지금 가입하고 받기</button>
   </div>
 
+  <!-- 검색창 -->
+  <div class="search">
+    <input type="text" id="searchBox" onkeyup="searchProduct()" placeholder="🔍 상품 이름으로 검색해 보세요">
+  </div>
+
   <!-- 카테고리 버튼 -->
   <div class="categories">
     <button class="active" onclick="showCategory('전체', this)">전체</button>
@@ -264,6 +325,7 @@
   <div class="products">
 
     <div class="card" data-category="간식">
+      <button class="heart" onclick="toggleHeart(this)">🤍</button>
       <span class="badge">BEST</span>
       <img src="https://placedog.net/500/400?id=12" alt="수제 오리목뼈 간식">
       <h3>수제 오리목뼈 간식</h3>
@@ -274,6 +336,7 @@
     </div>
 
     <div class="card" data-category="장난감">
+      <button class="heart" onclick="toggleHeart(this)">🤍</button>
       <span class="badge new">NEW</span>
       <img src="https://placedog.net/500/400?id=21" alt="삑삑이 애착 인형">
       <h3>삑삑이 애착 인형</h3>
@@ -284,6 +347,7 @@
     </div>
 
     <div class="card" data-category="용품">
+      <button class="heart" onclick="toggleHeart(this)">🤍</button>
       <span class="badge">BEST</span>
       <img src="https://placedog.net/500/400?id=30" alt="푹신 쿠션 하네스">
       <h3>푹신 쿠션 하네스</h3>
@@ -294,6 +358,7 @@
     </div>
 
     <div class="card" data-category="용품">
+      <button class="heart" onclick="toggleHeart(this)">🤍</button>
       <span class="badge sale">할인</span>
       <img src="https://placedog.net/500/400?id=7" alt="도톰 방석 하우스">
       <h3>도톰 방석 하우스</h3>
@@ -304,6 +369,7 @@
     </div>
 
     <div class="card" data-category="용품">
+      <button class="heart" onclick="toggleHeart(this)">🤍</button>
       <span class="badge new">NEW</span>
       <img src="https://placedog.net/500/400?id=45" alt="포근 니트 겨울옷">
       <h3>포근 니트 겨울옷</h3>
@@ -314,6 +380,7 @@
     </div>
 
     <div class="card" data-category="용품">
+      <button class="heart" onclick="toggleHeart(this)">🤍</button>
       <span class="badge sale">할인</span>
       <img src="https://placedog.net/500/400?id=55" alt="스텐 자동 급수기">
       <h3>스텐 자동 급수기</h3>
@@ -324,6 +391,12 @@
     </div>
 
   </div>
+
+  <!-- 찾는 상품이 없을 때 -->
+  <p class="no-result" id="noResult">
+    찾으시는 상품이 없어요 🐾<br>
+    다른 이름으로 검색해 보세요.
+  </p>
 
   <!-- 쇼핑몰 소개 -->
   <div class="about">
@@ -367,25 +440,57 @@
     function showAlert(message) {
       alert(message);
     }
+    // 지금 선택된 카테고리를 기억해두는 상자
+    var nowCategory = '전체';
 
-
-    // 카테고리 버튼을 누르면 해당 상품만 보여주는 함수
+    // 카테고리 버튼을 누르면 실행되는 함수
     function showCategory(name, clickedButton) {
-      // 1. 모든 상품 카드를 확인해서 보이거나 숨기기
+      nowCategory = name;
+
+      // 누른 버튼에만 파란색 표시하기
+      var buttons = document.querySelectorAll('.categories button');
+      for (var j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove('active');
+      }
+      clickedButton.classList.add('active');
+
+      showProducts();
+    }
+
+    // 검색창에 글자를 칠 때마다 실행되는 함수
+    function searchProduct() {
+      showProducts();
+    }
+
+    // 카테고리와 검색어를 함께 확인해서 상품을 보여주는 함수
+    function showProducts() {
+      var word = document.getElementById('searchBox').value;
       var cards = document.querySelectorAll('.card');
+      var shown = 0;
+
       for (var i = 0; i < cards.length; i++) {
-        if (name === '전체' || cards[i].dataset.category === name) {
+        var name = cards[i].querySelector('h3').textContent;
+
+        // 카테고리가 맞는지 확인
+        var sameCategory = (nowCategory === '전체' || cards[i].dataset.category === nowCategory);
+        // 상품 이름에 검색어가 들어있는지 확인
+        var hasWord = (name.indexOf(word) !== -1);
+
+        if (sameCategory && hasWord) {
           cards[i].style.display = 'block';
+          shown = shown + 1;
         } else {
           cards[i].style.display = 'none';
         }
       }
 
-      // 2. 누른 버튼에만 주황색 표시하기
-      var buttons = document.querySelectorAll('.categories button');
-      for (var j = 0; j < buttons.length; j++) {
-        buttons[j].classList.remove('active');
+      var noResult = document.getElementById('noResult');
+      if (shown === 0) {
+        noResult.style.display = 'block';
+      } else {
+        noResult.style.display = 'none';
       }
+    }
       clickedButton.classList.add('active');
     }
 
@@ -412,6 +517,28 @@
 
     // 화면이 열릴 때 할인율을 자동으로 계산
     showDiscount();
+
+    // 하트를 누르면 찜하기 켜고 끄는 함수
+    function toggleHeart(button) {
+      if (button.textContent === '🤍') {
+        button.textContent = '❤️';   // 찜한 상태
+      } else {
+        button.textContent = '🤍';   // 찜 해제
+      }
+      updateWishCount();
+    }
+
+    // 찜한 상품이 몇 개인지 세어서 맨 위에 보여주는 함수
+    function updateWishCount() {
+      var hearts = document.querySelectorAll('.heart');
+      var count = 0;
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].textContent === '❤️') {
+          count = count + 1;
+        }
+      }
+      document.getElementById('wishNumber').textContent = count;
+    }
   </script>
 
 </body>
