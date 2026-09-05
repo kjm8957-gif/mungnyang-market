@@ -175,6 +175,48 @@
       cursor: pointer;
     }
 
+    /* 쇼핑몰 소개 */
+    .about {
+      background-color: #FFE3CC;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .about h2 {
+      font-size: 28px;
+      margin: 0 0 20px 0;
+    }
+    .about > p {
+      font-size: 18px;
+      line-height: 1.9;
+      max-width: 700px;
+      margin: 0 auto 40px auto;
+    }
+    /* 소개 항목 3개 */
+    .about-items {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .about-item {
+      background-color: white;
+      border-radius: 20px;
+      width: 220px;
+      padding: 25px 20px;
+    }
+    .about-emoji {
+      font-size: 45px;
+    }
+    .about-item h3 {
+      font-size: 19px;
+      margin: 12px 0 8px 0;
+    }
+    .about-item p {
+      font-size: 16px;
+      margin: 0;
+      color: #7A675C;
+    }
+
     /* 맨 아래 연락처 */
     footer {
       background-color: #4A3B32;
@@ -281,6 +323,35 @@
       <button onclick="showAlert('장바구니에 담았습니다! 🛒')">장바구니</button>
     </div>
 
+  </div>
+
+  <!-- 쇼핑몰 소개 -->
+  <div class="about">
+    <h2>🐾 멍냥마켓 이야기</h2>
+    <p>
+      멍냥마켓은 강아지와 함께 사는 보호자가 직접 써보고 고른 물건만 판매합니다.
+      매일 쓰는 물건일수록 꼼꼼하게, 우리 아이에게 줘도 마음 놓이는 것만 담았습니다.
+    </p>
+
+    <div class="about-items">
+      <div class="about-item">
+        <div class="about-emoji">🚚</div>
+        <h3>무료배송</h3>
+        <p>3만원 이상 구매 시<br>배송비가 없습니다</p>
+      </div>
+
+      <div class="about-item">
+        <div class="about-emoji">🔍</div>
+        <h3>직접 써보고 선택</h3>
+        <p>사장님 강아지가<br>먼저 써본 물건만</p>
+      </div>
+
+      <div class="about-item">
+        <div class="about-emoji">💝</div>
+        <h3>교환·환불 안심</h3>
+        <p>받은 날부터 14일 안에<br>연락 주시면 됩니다</p>
+      </div>
+    </div>
   </div>
 
   <!-- 맨 아래 -->
